@@ -13,23 +13,33 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      darkTheme: ThemeData.dark(),
+      themeMode: ThemeMode.dark,
       debugShowCheckedModeBanner: false,
       home: const HomePage(),
     );
   }
 }
 
+final Provider<DateTime> currentDate = Provider(
+  (ref) => DateTime.now(),
+);
+
 class HomePage extends ConsumerWidget {
-  const HomePage({Key? key}): super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final date = ref.watch(currentDate);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home Page"),
+        title: const Text("Hooks Riverpod"),
+      ),
+      body: Center(
+        child: Text(
+          date.toIso8601String(),
+          style: Theme.of(context).textTheme.headline4,
+        ),
       ),
     );
   }
